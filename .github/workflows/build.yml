@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version: 'stable'
-      - run: go build --output ./bin/solve
+      - run: go build -o ./bin/solve
       - run: git add ./bin/solve && git commit -m '[auto] update binary'
       - run: git pull --rebase && git push
 
