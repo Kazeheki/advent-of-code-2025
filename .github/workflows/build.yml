@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches:
+      -main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version: 'stable'
+      - run: got test ./...
+
+  create:
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      USER_NAME: "🤖 GH action"
+      USER_MAIL: "--"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version: 'stable'
+      - run: go build --output ./bin/solve
+      - run: git add ./bin/solve && git commit -m '[auto] update binary'
+      - run: git pull --rebase && git push
+
+
