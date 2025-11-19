@@ -19,6 +19,8 @@ jobs:
       - run: go test ./...
 
   create:
+    permissions:
+      contents: write
     needs:
       - test
     runs-on: ubuntu-latest
